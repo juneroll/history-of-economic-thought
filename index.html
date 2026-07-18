@@ -1,3 +1,6 @@
+
+
+Codex oeconomicus · HTML
 <!DOCTYPE html>
 <html lang="en" data-theme="candlelight">
 <head>
@@ -9,24 +12,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   CODEX ŒCONOMICUS — a neo-gothic manuscript system
-   Palette is themed via [data-theme] on <html>.
-   candlelight : soot, gold leaf, rubric red, vellum text
-   parchment   : ivory leaf, iron-gall ink, gilt, rubric red
+   CODEX ŒCONOMICUS — a neo-gothic manuscript system, v2
+   New in this leaf: hash routing (#/…), Disputationes,
+   folio pages (author them in <template> blocks at the foot
+   of the file), and glossed Scriptorium leaves.
    ============================================================ */
-
+ 
 :root{
-  --arch: 84px;
   --serif: "EB Garamond", Georgia, "Times New Roman", serif;
   --lapidary: "Cinzel", "Trajan Pro", Georgia, serif;
   --blackletter: "UnifrakturMaguntia", "Old English Text MT", serif;
 }
-
+ 
 html[data-theme="candlelight"]{
   --bg:        #131009;
   --bg-2:      #1a150d;
   --card:      #1e1811;
-  --card-2:    #241c13;
   --ink:       #eadfc4;
   --muted:     #a58f66;
   --gold:      #c9a44e;
@@ -38,12 +39,11 @@ html[data-theme="candlelight"]{
   --glow:      0 0 18px rgba(201,164,78,.18);
   --shadow:    0 10px 30px rgba(0,0,0,.45);
 }
-
+ 
 html[data-theme="parchment"]{
   --bg:        #ebe0c6;
   --bg-2:      #e4d8ba;
   --card:      #f5eeda;
-  --card-2:    #efe6cd;
   --ink:       #261c10;
   --muted:     #6f5c3e;
   --gold:      #7d621f;
@@ -55,11 +55,10 @@ html[data-theme="parchment"]{
   --glow:      none;
   --shadow:    0 8px 22px rgba(60,42,10,.18);
 }
-
+ 
 *{ margin:0; padding:0; box-sizing:border-box; }
-
 html{ scroll-behavior:smooth; }
-
+ 
 body{
   font-family:var(--serif);
   background:var(--bg);
@@ -67,83 +66,56 @@ body{
   font-size:18px;
   line-height:1.65;
   min-height:100vh;
-  /* faint stone / vellum grain, no image assets */
   background-image:
     radial-gradient(ellipse 1200px 700px at 50% -8%, var(--bg-2), transparent 62%),
     repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.010) 3px 4px),
     repeating-linear-gradient(90deg, transparent 0 3px, rgba(0,0,0,.015) 3px 4px);
   background-attachment: fixed;
 }
-
+ 
 ::selection{ background:var(--gold); color:#171208; }
-
+ 
 /* ---------- masthead ---------- */
-
-.masthead{
-  text-align:center;
-  padding:56px 20px 6px;
-  position:relative;
-}
-
+ 
+.masthead{ text-align:center; padding:56px 20px 6px; position:relative; }
+ 
 .masthead .cross{
-  display:block;
-  color:var(--gold);
-  font-size:1.05rem;
-  letter-spacing:1.4em;
-  padding-left:1.4em; /* recenters letterspaced glyphs */
-  margin-bottom:18px;
-  opacity:.85;
+  display:block; color:var(--gold); font-size:1.05rem;
+  letter-spacing:1.4em; padding-left:1.4em;
+  margin-bottom:18px; opacity:.85;
 }
-
+ 
 .masthead h1{
-  font-family:var(--blackletter);
-  font-weight:400;
+  font-family:var(--blackletter); font-weight:400;
   font-size:clamp(2.6rem, 7vw, 4.6rem);
-  color:var(--ink);
-  text-shadow:var(--glow);
-  letter-spacing:.01em;
+  color:var(--ink); text-shadow:var(--glow); letter-spacing:.01em;
 }
-
 .masthead h1 .gilt{ color:var(--gold); }
-
+ 
 .masthead .sub{
   font-family:var(--lapidary);
   font-size:clamp(.72rem, 1.8vw, .95rem);
-  letter-spacing:.42em;
-  padding-left:.42em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-top:14px;
+  letter-spacing:.42em; padding-left:.42em;
+  text-transform:uppercase; color:var(--muted); margin-top:14px;
 }
-
+ 
 .theme-toggle{
-  position:absolute;
-  top:20px; right:22px;
-  background:transparent;
-  border:1px solid var(--line);
-  color:var(--gold);
-  font-family:var(--lapidary);
-  font-size:.68rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  padding:8px 14px;
-  cursor:pointer;
+  position:absolute; top:20px; right:22px;
+  background:transparent; border:1px solid var(--line);
+  color:var(--gold); font-family:var(--lapidary);
+  font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
+  padding:8px 14px; cursor:pointer;
   transition:border-color .25s, color .25s, background .25s;
 }
 .theme-toggle:hover{ border-color:var(--gold); background:var(--card); }
-
-/* ---------- gothic arcade divider ---------- */
-
+ 
 .arcade{
-  display:block;
-  width:min(760px, 86vw);
-  margin:26px auto 0;
-  color:var(--gold);
-  opacity:.55;
+  display:block; width:min(760px, 86vw);
+  margin:26px auto 0; color:var(--gold); opacity:.55;
 }
-
+ 
 /* ---------- tab rail ---------- */
-
+ 
 .tabs{
   position:sticky; top:0; z-index:60;
   display:flex; flex-wrap:wrap; justify-content:center; gap:2px;
@@ -153,219 +125,211 @@ body{
   backdrop-filter: blur(7px);
   -webkit-backdrop-filter: blur(7px);
 }
-
+ 
 .tab{
   appearance:none; background:transparent; border:0;
   font-family:var(--lapidary);
   font-size:.78rem; letter-spacing:.2em; text-transform:uppercase;
-  color:var(--muted);
-  padding:10px 16px 12px;
-  cursor:pointer;
-  position:relative;
-  transition:color .25s;
+  color:var(--muted); padding:10px 14px 12px;
+  cursor:pointer; position:relative; transition:color .25s;
 }
 .tab:hover{ color:var(--ink); }
 .tab::after{
-  content:"◆";
-  position:absolute; left:50%; bottom:-3px;
+  content:"◆"; position:absolute; left:50%; bottom:-3px;
   transform:translateX(-50%) scale(.55);
-  color:var(--gold);
-  opacity:0; transition:opacity .25s, transform .25s;
+  color:var(--gold); opacity:0; transition:opacity .25s, transform .25s;
 }
 .tab[aria-selected="true"]{ color:var(--gold); }
 .tab[aria-selected="true"]::after{ opacity:1; transform:translateX(-50%) scale(.8); }
-
-/* ---------- panels ---------- */
-
+ 
+/* ---------- panels & shared type ---------- */
+ 
 main{ max-width:1080px; margin:0 auto; padding:44px 22px 80px; }
-
+ 
 .panel{ display:none; }
 .panel.active{ display:block; animation:leafTurn .5s ease both; }
-
+ 
 @keyframes leafTurn{
   from{ opacity:0; transform:translateY(14px); }
   to{ opacity:1; transform:none; }
 }
-
-/* rubricated section heading: red eyebrow + lapidary title */
+ 
 .rubric{
   font-family:var(--lapidary);
   font-size:.72rem; letter-spacing:.34em; text-transform:uppercase;
-  color:var(--rubric);
-  margin-bottom:10px;
+  color:var(--rubric); margin-bottom:10px;
 }
 .panel > h2, .panel-title{
-  font-family:var(--lapidary);
-  font-weight:600;
+  font-family:var(--lapidary); font-weight:600;
   font-size:clamp(1.5rem, 3.6vw, 2.1rem);
-  letter-spacing:.06em;
-  color:var(--ink);
-  margin-bottom:8px;
+  letter-spacing:.06em; color:var(--ink); margin-bottom:8px;
 }
 .panel-lede{
-  color:var(--muted);
-  font-size:1.05rem;
-  max-width:64ch;
-  margin-bottom:34px;
-  font-style:italic;
+  color:var(--muted); font-size:1.05rem; max-width:64ch;
+  margin-bottom:34px; font-style:italic;
 }
-
-/* ornamental divider */
+ 
 .fleuron{
   display:flex; align-items:center; gap:16px;
-  margin:38px 0;
-  color:var(--gold);
+  margin:38px 0; color:var(--gold);
 }
 .fleuron::before, .fleuron::after{
   content:""; flex:1; height:1px;
   background:linear-gradient(90deg, transparent, var(--line), transparent);
 }
-
-/* ---------- frontispiece ---------- */
-
-.epigraph{
-  text-align:center;
-  min-height:120px;
-  display:flex; flex-direction:column; justify-content:center; align-items:center;
-  margin:8px auto 30px;
-  max-width:62ch;
+ 
+.sub-h{
+  font-family:var(--lapidary); font-weight:600;
+  font-size:.9rem; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--ink); margin:6px 0 16px;
 }
-.epigraph blockquote{
-  font-style:italic;
-  font-size:clamp(1.1rem, 2.6vw, 1.35rem);
-  color:var(--ink);
-  transition:opacity .6s;
-}
-.epigraph cite{
-  display:block;
-  font-family:var(--lapidary);
-  font-style:normal;
-  font-size:.7rem; letter-spacing:.28em; text-transform:uppercase;
-  color:var(--muted);
-  margin-top:14px;
-  transition:opacity .6s;
-}
-.epigraph.fading blockquote, .epigraph.fading cite{ opacity:0; }
-
-.prologue{ max-width:66ch; margin:0 auto; }
-
-/* illuminated versal — the signature element */
-.prologue p.versal::first-letter{
+ 
+/* the illuminated versal — shared by prologue, folios, and leaves */
+.prologue p.versal::first-letter,
+.prose > p:first-of-type::first-letter,
+.leaf-text > p:first-of-type::first-letter{
   font-family:var(--blackletter);
-  font-size:3.9em;
-  float:left;
-  line-height:.82;
-  padding:.1em .16em .06em;
-  margin:.06em .14em 0 0;
+  font-size:3.9em; float:left; line-height:.82;
+  padding:.1em .16em .06em; margin:.06em .14em 0 0;
   color:var(--gold);
   background:linear-gradient(160deg, var(--rubric-deep), color-mix(in srgb, var(--rubric-deep) 70%, black));
   border:1px solid var(--gold-soft);
   box-shadow:inset 0 0 0 3px color-mix(in srgb, var(--rubric-deep) 70%, black), var(--shadow);
 }
-html[data-theme="parchment"] .prologue p.versal::first-letter{
+html[data-theme="parchment"] .prologue p.versal::first-letter,
+html[data-theme="parchment"] .prose > p:first-of-type::first-letter,
+html[data-theme="parchment"] .leaf-text > p:first-of-type::first-letter{
   background:linear-gradient(160deg, var(--rubric), var(--rubric-deep));
   color:#f3e8c8;
 }
+ 
+/* gold action link, used across the codex */
+.view{
+  display:inline-block; align-self:flex-start;
+  background:transparent; border:0; cursor:pointer;
+  font-family:var(--lapidary); font-size:.7rem;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold); padding:12px 0 2px; text-decoration:none;
+  transition:letter-spacing .25s;
+}
+.view:hover{ letter-spacing:.3em; }
+ 
+.back{
+  display:inline-block; margin-bottom:26px;
+  font-family:var(--lapidary); font-size:.68rem;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold); text-decoration:none;
+  border:1px solid var(--line); padding:8px 14px;
+  transition:border-color .2s;
+}
+.back:hover{ border-color:var(--gold); }
+ 
+/* ---------- frontispiece ---------- */
+ 
+.epigraph{
+  text-align:center; min-height:120px;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  margin:8px auto 30px; max-width:62ch;
+}
+.epigraph blockquote{
+  font-style:italic;
+  font-size:clamp(1.1rem, 2.6vw, 1.35rem);
+  color:var(--ink); transition:opacity .6s;
+}
+.epigraph cite{
+  display:block; font-family:var(--lapidary); font-style:normal;
+  font-size:.7rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--muted); margin-top:14px; transition:opacity .6s;
+}
+.epigraph.fading blockquote, .epigraph.fading cite{ opacity:0; }
+ 
+.prologue{ max-width:66ch; margin:0 auto; }
 .prologue p + p{ margin-top:1em; text-indent:1.6em; }
-
+ 
 .portals{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-  gap:18px;
-  margin-top:40px;
+  grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
+  gap:18px; margin-top:40px;
 }
 .portal{
-  appearance:none; text-align:left; cursor:pointer;
+  display:block; text-align:left; cursor:pointer; text-decoration:none;
   font-family:var(--serif); color:var(--ink);
-  background:var(--card);
-  border:1px solid var(--line);
+  background:var(--card); border:1px solid var(--line);
   box-shadow:inset 0 0 0 1px var(--line-soft), var(--shadow);
-  padding:22px 20px 20px;
+  padding:22px 20px 20px; position:relative;
   transition:transform .25s, border-color .25s;
-  position:relative;
 }
 .portal:hover{ transform:translateY(-3px); border-color:var(--gold); }
 .portal .glyph{ color:var(--gold); font-size:1.4rem; display:block; margin-bottom:10px; }
 .portal .p-name{
-  font-family:var(--lapidary); font-size:.82rem;
-  letter-spacing:.22em; text-transform:uppercase; color:var(--ink);
+  font-family:var(--lapidary); font-size:.8rem;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--ink);
   display:block; margin-bottom:8px;
 }
-.portal .p-desc{ font-size:.95rem; color:var(--muted); display:block; }
+.portal .p-desc{ font-size:.93rem; color:var(--muted); display:block; }
 .portal::after{
   content:"⟶"; position:absolute; right:18px; bottom:14px;
   color:var(--gold); opacity:0; transition:opacity .25s;
 }
 .portal:hover::after{ opacity:1; }
-
-/* ---------- chronicle (timeline) ---------- */
-
+ 
+/* ---------- chronicle ---------- */
+ 
 .chronicle{ position:relative; margin-top:12px; }
 .chronicle::before{
   content:""; position:absolute; top:0; bottom:0; left:50%;
   width:1px; transform:translateX(-50%);
   background:linear-gradient(180deg, transparent, var(--gold-soft) 6%, var(--gold-soft) 94%, transparent);
 }
-
-.tl-entry{
-  position:relative;
-  width:50%;
-  padding:0 44px 46px;
-}
+.tl-entry{ position:relative; width:50%; padding:0 44px 46px; }
 .tl-entry:nth-child(odd){ left:0; text-align:right; }
 .tl-entry:nth-child(even){ left:50%; text-align:left; }
-
 .tl-entry .node{
-  position:absolute; top:10px;
-  width:9px; height:9px;
-  background:var(--bg);
-  border:1.5px solid var(--gold);
+  position:absolute; top:10px; width:9px; height:9px;
+  background:var(--bg); border:1.5px solid var(--gold);
   transform:rotate(45deg);
 }
 .tl-entry:nth-child(odd) .node{ right:-5px; }
 .tl-entry:nth-child(even) .node{ left:-5px; }
-
 .tl-year{
-  font-family:var(--lapidary);
-  font-size:1.35rem; font-weight:600; letter-spacing:.08em;
-  color:var(--gold);
+  font-family:var(--lapidary); font-size:1.35rem; font-weight:600;
+  letter-spacing:.08em; color:var(--gold);
 }
 .tl-era{
-  font-family:var(--lapidary);
-  font-size:.64rem; letter-spacing:.3em; text-transform:uppercase;
-  color:var(--rubric);
-  margin:2px 0 6px;
+  font-family:var(--lapidary); font-size:.64rem;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--rubric); margin:2px 0 6px;
 }
 .tl-title{ font-weight:600; font-size:1.06rem; }
 .tl-title i{ font-weight:500; }
 .tl-blurb{ color:var(--muted); font-size:.97rem; margin-top:4px; }
-
+.tl-go{
+  display:inline-block; margin-top:8px; text-decoration:none;
+  color:var(--gold); font-family:var(--lapidary);
+  font-size:.64rem; letter-spacing:.2em; text-transform:uppercase;
+  transition:letter-spacing .25s;
+}
+.tl-go:hover{ letter-spacing:.28em; }
+ 
 /* ---------- schools ---------- */
-
+ 
 .school-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
   gap:20px;
 }
 .school{
-  background:var(--card);
-  border:1px solid var(--line);
+  background:var(--card); border:1px solid var(--line);
   box-shadow:inset 0 0 0 1px var(--line-soft), var(--shadow);
-  padding:24px 22px 18px;
-  display:flex; flex-direction:column;
+  padding:24px 22px 18px; display:flex; flex-direction:column;
 }
-.school .glyph{
-  color:var(--gold); font-size:1.5rem; line-height:1;
-  margin-bottom:12px;
-}
+.school .glyph{ color:var(--gold); font-size:1.5rem; line-height:1; margin-bottom:12px; }
 .school h3{
   font-family:var(--lapidary); font-weight:600;
-  font-size:1.02rem; letter-spacing:.1em;
-  margin-bottom:2px;
+  font-size:1.02rem; letter-spacing:.1em; margin-bottom:2px;
 }
 .school .span{
-  font-family:var(--lapidary);
-  font-size:.66rem; letter-spacing:.26em; text-transform:uppercase;
+  font-family:var(--lapidary); font-size:.66rem;
+  letter-spacing:.26em; text-transform:uppercase;
   color:var(--rubric); margin-bottom:12px;
 }
 .school .gist{ font-size:.97rem; color:var(--ink); flex:1; }
@@ -374,79 +338,131 @@ html[data-theme="parchment"] .prologue p.versal::first-letter{
   border-top:1px solid var(--line-soft);
   margin-top:14px; padding-top:10px;
 }
-.school .view{
-  appearance:none; align-self:flex-start;
-  background:transparent; border:0; cursor:pointer;
-  font-family:var(--lapidary); font-size:.7rem;
-  letter-spacing:.22em; text-transform:uppercase;
-  color:var(--gold); padding:12px 0 2px;
-  transition:letter-spacing .25s;
-}
-.school .view:hover{ letter-spacing:.3em; }
-
+ 
 /* ---------- thinkers ---------- */
-
-.filter-bar{
-  display:flex; flex-wrap:wrap; gap:8px; align-items:center;
-  margin-bottom:26px;
-}
+ 
+.filter-bar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:20px; }
 .chip{
-  appearance:none; cursor:pointer;
-  background:transparent;
-  border:1px solid var(--line);
-  color:var(--muted);
-  font-family:var(--lapidary);
-  font-size:.66rem; letter-spacing:.16em; text-transform:uppercase;
-  padding:7px 12px;
-  transition:all .2s;
+  appearance:none; cursor:pointer; background:transparent;
+  border:1px solid var(--line); color:var(--muted);
+  font-family:var(--lapidary); font-size:.66rem;
+  letter-spacing:.16em; text-transform:uppercase;
+  padding:7px 12px; transition:all .2s;
 }
 .chip:hover{ color:var(--ink); border-color:var(--gold); }
 .chip.on{ background:var(--gold); border-color:var(--gold); color:#1c1508; }
-
+ 
 .search{
-  flex:1 1 220px; min-width:200px;
-  background:var(--card);
-  border:1px solid var(--line);
-  color:var(--ink);
-  font-family:var(--serif); font-style:italic; font-size:.95rem;
-  padding:9px 14px;
+  width:100%; margin-bottom:26px;
+  background:var(--card); border:1px solid var(--line);
+  color:var(--ink); font-family:var(--serif);
+  font-style:italic; font-size:.95rem; padding:9px 14px;
 }
 .search::placeholder{ color:var(--muted); }
 .search:focus{ outline:none; border-color:var(--gold); }
-
+ 
 .thinker-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
   gap:18px;
 }
 .thinker{
-  background:var(--card);
-  border:1px solid var(--line);
+  background:var(--card); border:1px solid var(--line);
   box-shadow:inset 0 0 0 1px var(--line-soft);
-  padding:18px 18px 16px;
+  padding:18px 18px 14px; cursor:pointer;
   transition:transform .2s, border-color .2s, box-shadow .2s;
 }
-.thinker:hover{ transform:translateY(-2px); border-color:var(--gold); box-shadow:inset 0 0 0 1px var(--line-soft), var(--shadow); }
+.thinker:hover{
+  transform:translateY(-2px); border-color:var(--gold);
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--shadow);
+}
 .thinker .t-head{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
 .thinker h4{ font-family:var(--lapidary); font-weight:600; font-size:.95rem; letter-spacing:.05em; }
 .thinker .dates{ font-size:.82rem; color:var(--muted); white-space:nowrap; }
 .thinker .t-school{
-  font-family:var(--lapidary);
-  font-size:.62rem; letter-spacing:.28em; text-transform:uppercase;
+  font-family:var(--lapidary); font-size:.62rem;
+  letter-spacing:.28em; text-transform:uppercase;
   color:var(--rubric); margin:4px 0 10px;
 }
 .thinker .works{ font-style:italic; font-size:.93rem; }
 .thinker .note{ font-size:.9rem; color:var(--muted); margin-top:8px; }
+.thinker .open{
+  display:block; margin-top:12px; padding-top:10px;
+  border-top:1px solid var(--line-soft);
+  color:var(--gold); font-family:var(--lapidary);
+  font-size:.62rem; letter-spacing:.2em; text-transform:uppercase;
+  opacity:.75; transition:opacity .2s, letter-spacing .2s;
+}
+.thinker:hover .open{ opacity:1; letter-spacing:.26em; }
 .no-results{ color:var(--muted); font-style:italic; padding:30px 4px; }
-
-/* ---------- texts (the library) ---------- */
-
+ 
+/* ---------- disputationes ---------- */
+ 
+.disputatio-list{ display:grid; gap:22px; }
+.disputatio{
+  background:var(--card); border:1px solid var(--line);
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--shadow);
+  padding:26px 26px 20px;
+}
+.d-years{
+  font-family:var(--lapidary); font-size:.66rem;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--rubric); margin-bottom:6px;
+}
+.d-title{
+  font-family:var(--lapidary); font-weight:600;
+  font-size:1.15rem; letter-spacing:.07em; margin-bottom:10px;
+}
+.d-lbl{
+  font-family:var(--lapidary); font-size:.62rem;
+  letter-spacing:.26em; text-transform:uppercase;
+  color:var(--rubric); display:block; margin-bottom:4px;
+}
+.d-quaestio{ font-style:italic; font-size:1.02rem; margin-bottom:18px; }
+.d-quaestio .d-lbl, .d-status .d-lbl{ display:inline; margin-right:.55em; }
+.d-sides{
+  display:grid; grid-template-columns:1fr 34px 1fr;
+  gap:0 8px; align-items:start;
+  border-block:1px solid var(--line-soft); padding:16px 0;
+}
+.d-side .d-party{ font-weight:600; font-size:.98rem; display:block; margin-bottom:6px; }
+.d-side p{ font-size:.94rem; color:var(--muted); }
+.d-x{
+  align-self:center; justify-self:center;
+  color:var(--gold); font-family:var(--lapidary);
+  font-size:1rem; opacity:.8;
+}
+.d-status{ margin-top:14px; font-size:.95rem; }
+.d-sources{ font-size:.85rem; color:var(--muted); font-style:italic; margin-top:10px; }
+ 
+/* ---------- library & leaves ---------- */
+ 
+.leaf-cards{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:18px; margin-bottom:8px;
+}
+.leaf-card{
+  display:block; text-decoration:none; color:var(--ink);
+  background:var(--card); border:1px solid var(--line);
+  box-shadow:inset 0 0 0 1px var(--line-soft);
+  padding:20px; transition:transform .2s, border-color .2s;
+}
+.leaf-card:hover{ transform:translateY(-2px); border-color:var(--gold); }
+.leaf-card .lc-t{ font-style:italic; font-weight:500; font-size:1rem; display:block; }
+.leaf-card .lc-a{
+  font-family:var(--lapidary); font-size:.66rem;
+  letter-spacing:.24em; text-transform:uppercase;
+  color:var(--muted); margin-top:6px; display:block;
+}
+.leaf-card .lc-go{
+  color:var(--gold); font-family:var(--lapidary);
+  font-size:.66rem; letter-spacing:.2em; text-transform:uppercase;
+  display:block; margin-top:12px;
+}
+ 
 .shelf{ border-top:1px solid var(--line); }
 .tome{
-  display:grid;
-  grid-template-columns:86px 1fr;
-  gap:6px 26px;
-  padding:20px 4px;
+  display:grid; grid-template-columns:86px 1fr;
+  gap:6px 26px; padding:20px 4px;
   border-bottom:1px solid var(--line-soft);
 }
 .tome .t-year{
@@ -455,15 +471,102 @@ html[data-theme="parchment"] .prologue p.versal::first-letter{
 }
 .tome .t-title{ font-style:italic; font-weight:500; font-size:1.05rem; }
 .tome .t-author{
-  font-family:var(--lapidary);
-  font-size:.68rem; letter-spacing:.24em; text-transform:uppercase;
+  font-family:var(--lapidary); font-size:.68rem;
+  letter-spacing:.24em; text-transform:uppercase;
   color:var(--muted); margin-top:2px;
 }
 .tome .t-note{ color:var(--muted); font-size:.94rem; margin-top:6px; }
 .tome > div:last-child{ grid-column:2; }
-
+.t-open{
+  display:inline-block; margin-top:8px; text-decoration:none;
+  color:var(--gold); font-family:var(--lapidary);
+  font-size:.64rem; letter-spacing:.2em; text-transform:uppercase;
+  transition:letter-spacing .25s;
+}
+.t-open:hover{ letter-spacing:.28em; }
+ 
+/* ---------- folio (article) pages ---------- */
+ 
+.folio-meta{ color:var(--muted); font-style:italic; margin-top:2px; }
+.prose{ max-width:66ch; font-size:1.02rem; margin-top:6px; }
+.prose p + p{ margin-top:1em; text-indent:1.6em; }
+.prose h3{
+  font-family:var(--lapidary); font-weight:600;
+  font-size:.92rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink); margin:1.9em 0 .7em;
+}
+.prose h3::after{ content:" ❧"; color:var(--gold); }
+.prose blockquote{
+  margin:1.4em 0; padding:.15em 0 .15em 1.1em;
+  border-left:2px solid var(--rubric); font-style:italic;
+}
+.prose .aside{
+  background:color-mix(in srgb, var(--card) 60%, transparent);
+  border:1px solid var(--line-soft);
+  padding:14px 16px; margin:1.5em 0;
+  font-size:.93rem; color:var(--muted);
+}
+.prose .aside::before{
+  content:"Nota. "; font-family:var(--lapidary);
+  font-size:.66rem; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--rubric);
+}
+.prose p.sources{
+  border-top:1px solid var(--line-soft);
+  margin-top:2em; padding-top:12px; text-indent:0;
+  font-size:.88rem; color:var(--muted);
+}
+.prose code, .colophon-body code{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:.82em; color:var(--gold);
+  background:var(--card); padding:1px 6px;
+  border:1px solid var(--line-soft);
+}
+.empty-folio{ color:var(--muted); font-style:italic; }
+ 
+/* ---------- leaf (glossed excerpt) pages ---------- */
+ 
+.leaf-intro{ font-style:italic; color:var(--muted); margin:2px 0 30px; max-width:64ch; }
+.leaf-grid{
+  display:grid; grid-template-columns:minmax(0, 1fr) 280px;
+  gap:44px; align-items:start; position:relative;
+}
+.leaf-text{ font-size:1.05rem; max-width:66ch; }
+.leaf-text p + p{ margin-top:1.1em; text-indent:1.6em; }
+.gl{
+  background:linear-gradient(to top, var(--gold-soft) 0 24%, transparent 24%);
+  border-bottom:1px dotted var(--gold);
+  cursor:pointer;
+}
+.gl .gn{
+  font-family:var(--lapidary); font-size:.6em;
+  color:var(--rubric); margin-left:3px; letter-spacing:.06em;
+}
+.gl.lit{ background:var(--gold-soft); }
+.leaf-margin{ position:relative; border-left:1px solid var(--line-soft); }
+.leaf-note{
+  position:absolute; left:0; width:100%; padding-left:20px;
+  font-size:.86rem; line-height:1.5; color:var(--muted);
+  cursor:pointer; transition:top .35s ease, color .2s;
+}
+.leaf-note .n{
+  display:block; font-family:var(--lapidary);
+  font-size:.6rem; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--rubric); margin-bottom:3px;
+}
+.leaf-note.lit{ color:var(--ink); }
+.leaf-note.lit::before{
+  content:""; position:absolute; left:-1px; top:0; bottom:0;
+  width:1px; background:var(--gold);
+}
+.leaf-colophon{
+  margin-top:40px; padding-top:14px;
+  border-top:1px solid var(--line-soft);
+  font-size:.88rem; color:var(--muted); font-style:italic;
+}
+ 
 /* ---------- colophon ---------- */
-
+ 
 .colophon-body{ max-width:64ch; }
 .colophon-body p + p{ margin-top:1em; }
 .colophon-body .small{
@@ -471,32 +574,36 @@ html[data-theme="parchment"] .prologue p.versal::first-letter{
   border-top:1px solid var(--line-soft);
   margin-top:26px; padding-top:16px;
 }
-
+ 
 /* ---------- footer ---------- */
-
-footer{
-  text-align:center;
-  padding:30px 20px 48px;
-  border-top:1px solid var(--line);
-}
+ 
+footer{ text-align:center; padding:30px 20px 48px; border-top:1px solid var(--line); }
 footer .orn{ color:var(--gold); letter-spacing:.9em; padding-left:.9em; display:block; margin-bottom:12px; }
 footer .fine{
-  font-family:var(--lapidary);
-  font-size:.66rem; letter-spacing:.3em; text-transform:uppercase;
-  color:var(--muted);
+  font-family:var(--lapidary); font-size:.66rem;
+  letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
 }
-
+ 
 /* ---------- a11y & motion ---------- */
-
+ 
 :focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
-
+ 
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{ animation:none !important; transition:none !important; }
   html{ scroll-behavior:auto; }
 }
-
+ 
 /* ---------- responsive ---------- */
-
+ 
+@media (max-width: 979px){
+  .leaf-grid{ grid-template-columns:1fr; gap:0; }
+  .leaf-margin{
+    border-left:0; border-top:1px solid var(--line-soft);
+    margin-top:26px; padding-top:20px;
+  }
+  .leaf-note{ position:static; padding-left:0; margin-bottom:18px; }
+}
+ 
 @media (max-width: 860px){
   .chronicle::before{ left:8px; }
   .tl-entry, .tl-entry:nth-child(odd), .tl-entry:nth-child(even){
@@ -506,17 +613,21 @@ footer .fine{
   .theme-toggle{ position:static; margin-top:20px; }
   .masthead{ padding-top:34px; }
 }
+ 
+@media (max-width: 700px){
+  .d-sides{ grid-template-columns:1fr; gap:14px 0; }
+  .d-x{ justify-self:start; padding-left:2px; }
+}
 </style>
 </head>
 <body>
-
+ 
 <header class="masthead">
   <button class="theme-toggle" id="themeToggle" aria-label="Switch between candlelight and parchment themes">☾ Candlelight</button>
   <span class="cross" aria-hidden="true">✠</span>
   <h1>Codex <span class="gilt">Œconomicus</span></h1>
   <p class="sub">A Chronicle of Economic Thought</p>
-
-  <!-- gothic arcade: a row of pointed arches, drawn once and repeated -->
+ 
   <svg class="arcade" viewBox="0 0 840 46" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <g id="arch" fill="none" stroke="currentColor" stroke-width="1.4">
@@ -525,138 +636,201 @@ footer .fine{
         <path d="M2,46 H82" stroke-width="1" opacity=".6"/>
       </g>
     </defs>
-    <use href="#arch" x="0"/>
-    <use href="#arch" x="84"/>
-    <use href="#arch" x="168"/>
-    <use href="#arch" x="252"/>
-    <use href="#arch" x="336"/>
-    <use href="#arch" x="420"/>
-    <use href="#arch" x="504"/>
-    <use href="#arch" x="588"/>
-    <use href="#arch" x="672"/>
+    <use href="#arch" x="0"/><use href="#arch" x="84"/><use href="#arch" x="168"/>
+    <use href="#arch" x="252"/><use href="#arch" x="336"/><use href="#arch" x="420"/>
+    <use href="#arch" x="504"/><use href="#arch" x="588"/><use href="#arch" x="672"/>
     <use href="#arch" x="756"/>
   </svg>
 </header>
-
+ 
 <nav class="tabs" role="tablist" aria-label="Sections of the codex">
-  <button class="tab" role="tab" id="tab-frontispiece" aria-controls="frontispiece" aria-selected="true">Frontispiece</button>
-  <button class="tab" role="tab" id="tab-chronicle" aria-controls="chronicle" aria-selected="false">Chronicle</button>
-  <button class="tab" role="tab" id="tab-schools" aria-controls="schools" aria-selected="false">Schools</button>
-  <button class="tab" role="tab" id="tab-thinkers" aria-controls="thinkers" aria-selected="false">Thinkers</button>
-  <button class="tab" role="tab" id="tab-texts" aria-controls="texts" aria-selected="false">The Library</button>
-  <button class="tab" role="tab" id="tab-colophon" aria-controls="colophon" aria-selected="false">Colophon</button>
+  <button class="tab" role="tab" data-route="frontispiece" aria-selected="true">Frontispiece</button>
+  <button class="tab" role="tab" data-route="chronicle" aria-selected="false">Chronicle</button>
+  <button class="tab" role="tab" data-route="schools" aria-selected="false">Schools</button>
+  <button class="tab" role="tab" data-route="thinkers" aria-selected="false">Thinkers</button>
+  <button class="tab" role="tab" data-route="disputationes" aria-selected="false">Disputationes</button>
+  <button class="tab" role="tab" data-route="library" aria-selected="false">The Library</button>
+  <button class="tab" role="tab" data-route="colophon" aria-selected="false">Colophon</button>
 </nav>
-
+ 
 <main>
-
+ 
   <!-- ==================== FRONTISPIECE ==================== -->
-  <section class="panel active" id="frontispiece" role="tabpanel" aria-labelledby="tab-frontispiece">
-
+  <section class="panel active" id="frontispiece" role="tabpanel">
+ 
     <div class="epigraph" id="epigraph" aria-live="polite">
       <blockquote id="epQuote"></blockquote>
       <cite id="epCite"></cite>
     </div>
-
+ 
     <div class="fleuron" aria-hidden="true">❦</div>
-
+ 
     <div class="prologue">
-      <p class="versal">The personality of inquiry is the necessary assumption that one can find or create something that captures the truth, and with scientific inquiry, methodology about how one follows to accomplish this is even more important.</p>
+      <p class=”versal”>The personality of inquiry is the necessary assumption that one can find or create something that captures the truth, and with scientific inquiry, methodology about how one follows to accomplish this is even more important.</p>
       <p>The science of economics is no different in this regard. The introduction of something resembling a more modern economic science happened with Adam Smith (1776), but fragments existed before, interested in similar but distinct questions.</p>
       <p>The history of economic thought can be summarized as attempting to document and observe these discrete and sometimes continuous evolutions in the science, either from a contemporary or historical perspective or both.</p>
     </div>
-
+ 
     <div class="portals">
-      <button class="portal" data-goto="chronicle">
+      <a class="portal" href="#/chronicle">
         <span class="glyph" aria-hidden="true">✦</span>
         <span class="p-name">The Chronicle</span>
         <span class="p-desc">Seven centuries of the discipline, from the Summa to social cost.</span>
-      </button>
-      <button class="portal" data-goto="schools">
-        <span class="glyph" aria-hidden="true">✠</span>
-        <span class="p-name">The Schools</span>
-        <span class="p-desc">Nine traditions, their doctrines, and the quarrels between them.</span>
-      </button>
-      <button class="portal" data-goto="thinkers">
+      </a>
+      <a class="portal" href="#/thinkers">
         <span class="glyph" aria-hidden="true">❧</span>
         <span class="p-name">The Thinkers</span>
-        <span class="p-desc">From Aquinas to Demsetz — filter by school or search the whole company.</span>
-      </button>
+        <span class="p-desc">From Aquinas to Demsetz — each opens onto a folio of its own.</span>
+      </a>
+      <a class="portal" href="#/disputationes">
+        <span class="glyph" aria-hidden="true">⚔</span>
+        <span class="p-name">Disputationes</span>
+        <span class="p-desc">The great quarrels of method, argued in the scholastic form.</span>
+      </a>
+      <a class="portal" href="#/library">
+        <span class="glyph" aria-hidden="true">✠</span>
+        <span class="p-name">The Library</span>
+        <span class="p-desc">Primary texts — some bound as glossed leaves in the margin-note style.</span>
+      </a>
     </div>
-
+ 
   </section>
-
+ 
   <!-- ==================== CHRONICLE ==================== -->
-  <section class="panel" id="chronicle" role="tabpanel" aria-labelledby="tab-chronicle">
+  <section class="panel" id="chronicle" role="tabpanel">
     <p class="rubric">Anno Domini</p>
     <h2>The Chronicle</h2>
     <p class="panel-lede">A timeline of the works and quarrels through which the discipline assembled itself.</p>
     <div class="chronicle" id="timelineMount"></div>
   </section>
-
+ 
   <!-- ==================== SCHOOLS ==================== -->
-  <section class="panel" id="schools" role="tabpanel" aria-labelledby="tab-schools">
+  <section class="panel" id="schools" role="tabpanel">
     <p class="rubric">Doctrinae</p>
     <h2>The Schools</h2>
     <p class="panel-lede">Traditions are arguments extended in time. Each card opens onto its members.</p>
     <div class="school-grid" id="schoolMount"></div>
   </section>
-
+ 
   <!-- ==================== THINKERS ==================== -->
-  <section class="panel" id="thinkers" role="tabpanel" aria-labelledby="tab-thinkers">
+  <section class="panel" id="thinkers" role="tabpanel">
     <p class="rubric">Dramatis Personae</p>
     <h2>The Thinkers</h2>
-    <p class="panel-lede">The company of the codex, from the Schoolmen to the price theorists.</p>
+    <p class="panel-lede">The company of the codex. Every card opens a folio — write yours into the authoring area at the foot of the file.</p>
     <div class="filter-bar" id="chipBar"></div>
-    <input class="search" id="searchBox" type="search" placeholder="Search a name, a work, an idea…" aria-label="Search thinkers" style="margin-bottom:26px; width:100%;">
+    <input class="search" id="searchBox" type="search" placeholder="Search a name, a work, an idea…" aria-label="Search thinkers">
     <div class="thinker-grid" id="thinkerMount"></div>
   </section>
-
+ 
+  <!-- ==================== DISPUTATIONES ==================== -->
+  <section class="panel" id="disputationes" role="tabpanel">
+    <p class="rubric">Quaestiones Disputatae</p>
+    <h2>Disputationes</h2>
+    <p class="panel-lede">The great methodological quarrels, set in the scholastic form: the question, the opening thrust, the reply, and the state of the question. The respondeo is left to the reader.</p>
+    <div class="disputatio-list" id="disputatioMount"></div>
+  </section>
+ 
   <!-- ==================== THE LIBRARY ==================== -->
-  <section class="panel" id="texts" role="tabpanel" aria-labelledby="tab-texts">
+  <section class="panel" id="library" role="tabpanel">
     <p class="rubric">Bibliotheca</p>
     <h2>The Library</h2>
     <p class="panel-lede">Primary texts, in order of appearance. Most are long out of copyright and free to read online.</p>
+ 
+    <h3 class="sub-h">Glossed Leaves</h3>
+    <div class="leaf-cards" id="leafCardMount"></div>
+ 
+    <div class="fleuron" aria-hidden="true">❦</div>
+ 
+    <h3 class="sub-h">The Shelf</h3>
     <div class="shelf" id="textMount"></div>
   </section>
-
+ 
+  <!-- ==================== FOLIO (detail view for thinkers & disputations) ==================== -->
+  <section class="panel" id="folio" role="tabpanel" aria-label="Folio">
+    <a class="back" id="folioBack" href="#/thinkers">⟵ Return</a>
+    <p class="rubric" id="folioRubric"></p>
+    <h2 id="folioTitle"></h2>
+    <p class="folio-meta" id="folioMeta"></p>
+    <div class="fleuron" aria-hidden="true">❦</div>
+    <div class="prose" id="folioBody"></div>
+  </section>
+ 
+  <!-- ==================== LEAF (glossed excerpt view) ==================== -->
+  <section class="panel" id="leaf" role="tabpanel" aria-label="Glossed leaf">
+    <a class="back" href="#/library">⟵ The Library</a>
+    <p class="rubric">Scriptorium</p>
+    <h2 id="leafTitle"></h2>
+    <p class="folio-meta" id="leafMeta"></p>
+    <p class="leaf-intro" id="leafIntro"></p>
+    <div class="leaf-grid" id="leafGrid">
+      <div class="leaf-text" id="leafText"></div>
+      <aside class="leaf-margin" id="leafMargin" aria-label="Marginal glosses"></aside>
+    </div>
+    <p class="leaf-colophon">Touch a highlighted phrase and its gloss answers from the margin. The glosses are the codex's own; the text is its author's.</p>
+  </section>
+ 
   <!-- ==================== COLOPHON ==================== -->
-  <section class="panel" id="colophon" role="tabpanel" aria-labelledby="tab-colophon">
+  <section class="panel" id="colophon" role="tabpanel">
     <p class="rubric">Explicit</p>
     <h2>Colophon</h2>
     <div class="colophon-body">
-      <p>This codex is a single, self-contained HTML file: no build step, no dependencies beyond three typefaces, and ready to be dropped onto GitHub Pages as it stands. The masthead is set in <i>UnifrakturMaguntia</i>, a blackletter used sparingly — display and versals only, never running text. Headings and rubrics are set in <i>Cinzel</i>, a lapidary roman after inscriptional capitals; the body is <i>EB Garamond</i>.</p>
-      <p>The red headings are rubrication — the medieval scribe's practice of marking divisions in red lead, from which we get the word <i>rubric</i>. The opening initial is a versal. The arches are drawn in SVG, not borrowed from anywhere.</p>
-      <p>All content lives in three plain arrays at the foot of the file — <code>TIMELINE</code>, <code>SCHOOLS</code>, and <code>THINKERS</code> — so extending the codex is a matter of adding an entry, not touching the markup.</p>
-      <p class="small">Candlelight and parchment themes toggle from the masthead. Motion is disabled for readers who prefer reduced motion. The name of the codex, like everything else here, is a placeholder awaiting its author.</p>
+      <p>This codex is a single, self-contained HTML file: no build step, no dependencies beyond three typefaces, and ready for GitHub Pages as it stands. The masthead is set in <i>UnifrakturMaguntia</i>, a blackletter used sparingly — display and versals only, never running text. Headings and rubrics are set in <i>Cinzel</i>, a lapidary roman; the body is <i>EB Garamond</i>. The red headings are rubrication, the opening initials are versals, and the arches are drawn in SVG, not borrowed from anywhere.</p>
+      <p>Every view has an address. Routes follow the pattern <code>#/chronicle</code>, <code>#/thinkers/adam-smith</code>, <code>#/disputationes/methodenstreit</code>, <code>#/library/wn-i-iii</code>, and filters travel too: <code>#/thinkers?school=chicago</code>. The browser's back button turns the pages.</p>
+      <p><b>To bind a folio</b> — an essay behind any thinker or disputation — add a template to the authoring area at the foot of this file: <code>&lt;template id="folio-thinker-adam-smith"&gt;…&lt;/template&gt;</code> or <code>&lt;template id="folio-disputatio-methodenstreit"&gt;…&lt;/template&gt;</code>. Plain HTML inside: <code>&lt;p&gt;</code>, <code>&lt;h3&gt;</code>, <code>&lt;blockquote&gt;</code>, <code>&lt;div class="aside"&gt;</code> for a Nota box, <code>&lt;p class="sources"&gt;</code> for the tailpiece. The first paragraph takes the versal automatically, and every unbound card tells you the exact template id it is waiting for.</p>
+      <p><b>To add a glossed leaf</b>, append an entry to the <code>LEAVES</code> array: paragraphs are plain strings, and any phrase wrapped as <code>&lt;g n="1"&gt;…&lt;/g&gt;</code> becomes a highlight keyed to gloss 1 in the margin apparatus. Everything else — <code>TIMELINE</code>, <code>SCHOOLS</code>, <code>THINKERS</code>, <code>DISPUTATIONES</code> — remains a plain array; extending the codex is a matter of adding an entry, never touching markup.</p>
+      <p class="small">Candlelight and parchment themes toggle from the masthead. Motion is disabled for readers who prefer reduced motion. The Demsetz folio is a bound sample awaiting replacement; the name of the codex, like everything else here, is a placeholder awaiting its author.</p>
     </div>
   </section>
-
+ 
 </main>
-
+ 
 <footer>
   <span class="orn" aria-hidden="true">✠ ❦ ✠</span>
   <p class="fine">Set in Cinzel &amp; EB Garamond · A Single-File Codex · MMXXVI</p>
 </footer>
-
+ 
+<!-- ============================================================
+     AUTHORING AREA — bind folios here.
+     A folio is any <template> whose id follows the pattern:
+       folio-thinker-{slug}       e.g. folio-thinker-adam-smith
+       folio-disputatio-{slug}    e.g. folio-disputatio-methodenstreit
+     Slugs are lower-cased, de-accented, hyphenated names; every
+     unbound card prints the exact id it is looking for.
+     Inside, plain HTML: <p>, <h3>, <blockquote>, <div class="aside">,
+     <p class="sources">. The first <p> takes the versal automatically.
+     ============================================================ -->
+ 
+<template id="folio-thinker-harold-demsetz">
+  <!-- SAMPLE FOLIO — replace freely; it exists to show the form. -->
+  <p>Demsetz's 1967 paper answered a question the discipline had not thought to ask. Not how property rights allocate resources — that was the standing assignment — but why rights exist at all, and why they change. The answer was itself economic: rights emerge</p>
+  <blockquote>“…when the gains of internalization become larger than the cost of internalization.” — Toward a Theory of Property Rights (1967)</blockquote>
+  <p>The demonstration ran through the fur trade of Labrador: when the price of pelts rose, the commons in beaver became expensive to keep, and territories appeared among the Montagnais. Institutions, on this account, are not the frame around economics but one of its outputs.</p>
+  <h3>The Nirvana Fallacy</h3>
+  <p>Two years later, “Information and Efficiency” named the habit of judging real institutions against ideal ones and finding the real wanting. The only defensible comparison, Demsetz argued, is between attainable arrangements — comparative institutional analysis, with no seat reserved for nirvana.</p>
+  <div class="aside">This folio is a bound sample. Copy its template as scaffolding for the others; the pattern is recorded in the Colophon.</div>
+  <p class="sources">Sources — Demsetz, “Toward a Theory of Property Rights,” AER (1967); “Information and Efficiency: Another Viewpoint,” JLE (1969); Alchian &amp; Demsetz, “Production, Information Costs, and Economic Organization,” AER (1972).</p>
+</template>
+ 
 <script>
 /* ============================================================
    DATA — the whole codex lives in these arrays.
-   To extend the site, add entries here; the markup never changes.
+   Add entries here; the markup never changes. Folio essays are
+   authored as <template> blocks (see the authoring area above).
    ============================================================ */
-
+ 
 const EPIGRAPHS = [
-  { q: "What vivid, versatile, and suggestive tool is lying unrecognized beneath economists’ eyes at this very moment?",
-    c: "George Lennox Sharman Shackle · The Years of High Theory · 1967" },
-  { q: "The antecedents of Smith’s laissez-faire and free-trade views are probably rightly to be sought mainly in the philosophic literature, and perhaps also in the writings of the physiocrats, rather than in the earlier English economic literature. ",
-    c: "Jacob Viner · Studies in the Theory of International Trade · 1937" },
-  { q: "… the most important developments which finally prepared the ground for the formulation of an economic doctrine of laissez-faire consisted of the contributions of moral philosophers and theologians whose major objective was to rebut Hobbes.",
-    c: "Jacob Viner · The 'Economic Man' or the Place of Economic Self-Interest in a 'Good Society' · 1959" },
-  { q:"Had specific tests been made of the implications of theories, the unfruitfulness of the ruling utility theory as a source of hypotheses in demand would soon have become apparent. Had these economists sought to establish true economic theories of economic behavior—that is, to isolate uniformities of economic events that permitted prediction of the effects of given conditions—they would not long have been content with the knowledge that demand curves have negative slopes. They would have desired knowledge on the relative elasticities of demand of rich and poor, the effects of occupation and urbanization on demand, the role of income changes, the difference between short-run and long-run reactions to price changes, and a whole host of problems which we are just beginning to study. They would have given us an economic theory which was richer and more precise.",
-    c:"George Stigler · The Development of Utility Theory · 1950"},
-  { q:"What utility theory contributed was precisely the values we attribute to the academic world and in particular to the academic sciences. The classical school had advanced one theory of value for producible goods and resorted to other theories (rent) or vague phrases (‘passions of the buyer’) for non-producible goods. Now the utility theory allowed a unified explanation of the value of shoes, wheat, and Shakespearean folios. The classical school had no central logic of behavior: the entrepreneur was a profit-maximizer while the consumer and laborer were opaque bundles of sociological behavior traits. Now the utility theory allowed a unified explanation of behavior: everyone was a utility-maximizer, and all economic problems became simply problems of tastes and obstacles (so, Pareto). The method of the classical school had been literary and numerical. Now the utility theory obviously permitted and even invited the use of mathematics.",
-    c:"George Stigler · The Process and Progress of Economics · 1982"},
+   { q:"What vivid, versatile, and suggestive tool is lying unrecognized beneath economists’ eyes at this very moment?",
+     c:"George Lennox Sharman Shackle · The Years of High Theory · 1967"},
+   { q:"The antecedents of Smith’s laissez-faire and free-trade views are probably rightly to be sought mainly in the philosophic literature, and perhaps also in the writings of the physiocrats, rather than in the earlier English economic literature.",
+     c:"Jacob Viner · Studies in the Theory of International Trade · 1937"},
+   { q:"… the most important developments which finally prepared the ground for the formulation of an economic doctrine of laissez-faire consisted of the contributions of moral philosophers and theologians whose major objective was to rebut Hobbes.",
+     c:"Jacob Viner · The ‘Economic Man’ or the Place of Economic Self-Interest in a ‘Good Society’ · 1959"},
+   { q:"Had specific tests been made of the implications of theories, the unfruitfulness of the ruling utility theory as a source of hypotheses in demand would soon have become apparent. Had these economists sought to establish true economic theories of economic behavior—that is, to isolate uniformities of economic events that permitted prediction of the effects of given conditions—they would not long have been content with the knowledge that demand curves have negative slopes. They would have desired knowledge on the relative elasticities of demand of rich and poor, the effects of occupation and urbanization on demand, the role of income changes, the difference between short-run and long-run reactions to price changes, and a whole host of problems which we are just beginning to study. They would have given us an economic theory which was richer and more precise.",
+     c:"George Stigler · The Development of Utility Theory · 1950"},
+   { q:"What utility theory contributed was precisely the values we attribute to the academic world and in particular to the academic sciences. The classical school had advanced one theory of value for producible goods and resorted to other theories (rent) or vague phrases (‘passions of the buyer’) for non-producible goods. Now the utility theory allowed a unified explanation of the value of shoes, wheat, and Shakespearean folios. The classical school had no central logic of behavior: the entrepreneur was a profit-maximizer while the consumer and laborer were opaque bundles of sociological behavior traits. Now the utility theory allowed a unified explanation of behavior: everyone was a utility-maximizer, and all economic problems became simply problems of tastes and obstacles (so, Pareto). The method of the classical school had been literary and numerical. Now the utility theory obviously permitted and even invited the use of mathematics.",
+     c:"George Stigler · The Process and Progress of Economics · 1982"},
 ];
-
+ 
 const SCHOOLS = [
   { key:"scholastic", glyph:"✠", name:"The Scholastics", span:"13th – 17th Centuries",
     gist:"Just price, usury, and the ethics of exchange, argued in the disputational method of the medieval universities. The School of Salamanca pressed furthest — Azpilcueta tied money's value to its plenty and scarcity in 1556, a quantity theory before the name.",
@@ -686,7 +860,7 @@ const SCHOOLS = [
     gist:"From Knight and Viner's price-theory course to Friedman, Stigler, Coase, Alchian, and Demsetz: the discipline of working every problem through relative prices — and, in time, bringing property rights, information, and the firm inside the theory.",
     figures:"Knight · Viner · Friedman · Stigler · Coase · Alchian · Demsetz · Cheung" }
 ];
-
+ 
 const THINKERS = [
   { n:"Thomas Aquinas", d:"1225 – 1274", s:"scholastic",
     w:"Summa Theologiae, II-II, qq. 77–78",
@@ -785,7 +959,7 @@ const THINKERS = [
     w:"The Theory of Share Tenancy (1969) · “The Contractual Nature of the Firm” (1983)",
     note:"Share tenancy vindicated; contracts, not firms against markets, as the unit of analysis." }
 ];
-
+ 
 const TIMELINE = [
   { y:"1265–74", era:"Scholastica", t:"Summa Theologiae", i:true,
     b:"Aquinas systematizes just price and the usury prohibition within the ethics of exchange." },
@@ -810,11 +984,13 @@ const TIMELINE = [
   { y:"1871", era:"Marginal Revolution", t:"Grundsätze · Theory of Political Economy", i:true,
     b:"Menger and Jevons, with Walras's Éléments (1874), re-found value on the margin — independently, in one decade." },
   { y:"1883", era:"Methodenstreit", t:"Menger contra Schmoller", i:false,
-    b:"Theory against history: the quarrel over method that shaped the discipline's self-understanding." },
+    b:"Theory against history: the quarrel over method that shaped the discipline's self-understanding.",
+    go:"#/disputationes/methodenstreit" },
   { y:"1890", era:"Neoclassical", t:"Principles of Economics", i:true,
     b:"Marshall's partial equilibrium: supply and demand crossed like the blades of a pair of scissors." },
   { y:"1920", era:"Calculation Debate", t:"Economic Calculation in the Socialist Commonwealth", i:false,
-    b:"Mises: without market prices for the means of production, rational calculation fails. The debate begins." },
+    b:"Mises: without market prices for the means of production, rational calculation fails. The debate begins.",
+    go:"#/disputationes/calculation-debate" },
   { y:"1936", era:"Keynes", t:"The General Theory of Employment, Interest and Money", i:true,
     b:"Aggregate demand, long-term expectation, and the possibility of underemployment equilibrium." },
   { y:"1945", era:"Knowledge", t:"The Use of Knowledge in Society", i:false,
@@ -824,51 +1000,139 @@ const TIMELINE = [
   { y:"1967", era:"Property Rights", t:"Toward a Theory of Property Rights", i:false,
     b:"Demsetz: property rights emerge when the gains of internalizing externalities exceed the costs." }
 ];
-
+ 
 const TEXTS = [
   { y:"1664", a:"Thomas Mun", t:"England's Treasure by Forraign Trade", note:"The mercantilist canon in miniature, published a generation after it was written." },
   { y:"1755", a:"Richard Cantillon", t:"Essai sur la nature du commerce en général", note:"A complete system before there was a discipline to receive it." },
   { y:"1758", a:"François Quesnay", t:"Tableau économique", note:"The circular flow, drawn as a zigzag across the classes." },
-  { y:"1776", a:"Adam Smith", t:"An Inquiry into the Nature and Causes of the Wealth of Nations", note:"Read alongside The Theory of Moral Sentiments (1759); the two are one argument." },
+  { y:"1776", a:"Adam Smith", t:"An Inquiry into the Nature and Causes of the Wealth of Nations", note:"Read alongside The Theory of Moral Sentiments (1759); the two are one argument.", leaf:"wn-i-iii" },
   { y:"1817", a:"David Ricardo", t:"On the Principles of Political Economy and Taxation", note:"Rent, value, and comparative advantage in the severest prose in the canon." },
   { y:"1848", a:"John Stuart Mill", t:"Principles of Political Economy", note:"The summa of the classical school, with its author's doubts included." },
   { y:"1867", a:"Karl Marx", t:"Das Kapital, Vol. I", note:"The critique of political economy, built from political economy's own parts." },
   { y:"1871", a:"Carl Menger", t:"Grundsätze der Volkswirtschaftslehre", note:"Goods, value, and the origin of money, derived causally rather than mechanically." },
-  { y:"1890", a:"Alfred Marshall", t:"Principles of Economics", note:"The neoclassical settlement; footnotes where the mathematics is kept." },
+  { y:"1890", a:"Alfred Marshall", t:"Principles of Economics", note:"The neoclassical settlement; footnotes where the mathematics is kept.", leaf:"principles-v-iii" },
   { y:"1921", a:"Frank H. Knight", t:"Risk, Uncertainty and Profit", note:"Perfect competition stated precisely — in order to show what it leaves out." },
   { y:"1936", a:"John Maynard Keynes", t:"The General Theory of Employment, Interest and Money", note:"The book the twentieth century argued about." },
   { y:"1949", a:"Ludwig von Mises", t:"Human Action", note:"Praxeology entire: the treatise as cathedral." }
 ];
-
+ 
+const DISPUTATIONES = [
+  { slug:"methodenstreit", years:"1883 – 1884 & After", title:"The Methodenstreit",
+    quaestio:"Is economics a body of exact and universal laws, or the historical study of particular national economies?",
+    a:{ party:"Carl Menger, for exact theory",
+        claim:"Economics seeks exact laws of typical phenomena, won by isolating abstraction. Theory is prior to history; no accumulation of historical material can substitute for it (Untersuchungen, 1883)." },
+    b:{ party:"Gustav von Schmoller, for the Historical School",
+        claim:"Economics is a historical-ethical science. Regularities emerge only from patient historical and statistical induction; abstraction before the material is gathered is empty formalism." },
+    status:"Menger answered Schmoller's dismissive review with the polemical Errors of Historicism (1884), and the quarrel hardened into schools. German chairs went to the historicists for a generation; the Austrians consolidated in opposition. The underlying question — theory before evidence, or evidence before theory — resurfaces in every methodology fight since.",
+    sources:"Menger, Untersuchungen über die Methode (1883) · Schmoller's review (1883) · Menger, Die Irrthümer des Historismus (1884)" },
+ 
+  { slug:"calculation-debate", years:"1920 – 1945 & After", title:"The Socialist Calculation Debate",
+    quaestio:"Can a socialist commonwealth calculate rationally without market prices for the means of production?",
+    a:{ party:"Mises, then Hayek, contra",
+        claim:"Where the means of production are not exchanged, they have no prices, and calculation in kind is impossible (Mises, 1920). Hayek deepens the thrust: the knowledge prices economize is dispersed, tacit, and generated only by rivalrous exchange." },
+    b:{ party:"Lange, Taylor & Lerner, pro",
+        claim:"A Central Planning Board can announce parametric prices and correct them by trial and error, replicating the Walrasian auctioneer without private ownership — the theory of value survives the change of masters (Lange, 1936–37)." },
+    status:"Mid-century textbooks scored the match for Lange. The re-reading that began with Lavoie's Rivalry and Central Planning (1985) reversed the verdict, recasting the debate as one about knowledge and process rather than the statics of equation-solving.",
+    sources:"Mises (1920) · Hayek, ed., Collectivist Economic Planning (1935) · Lange (1936–37) · Hayek, “The Use of Knowledge in Society” (1945) · Lavoie (1985)" },
+ 
+  { slug:"keynes-contra-hayek", years:"1931 – 1932", title:"Keynes contra Hayek",
+    quaestio:"Do slumps arise from deficient effective demand, or from malinvestment bred by credit expansion?",
+    a:{ party:"Hayek, from the LSE",
+        claim:"Money rates held below the natural rate distort the structure of production toward more roundabout methods than saving will sustain; the boom is the disease and the slump the cure (Prices and Production, 1931; the two-part review of Keynes's Treatise)." },
+    b:{ party:"Keynes & Sraffa, from Cambridge",
+        claim:"The Treatise's saving–investment imbalances, defended with heat — and Sraffa's 1932 demolition of Hayek's own-rates apparatus in the Economic Journal. By 1936 the General Theory shifts the ground entirely to effective demand." },
+    status:"Keynes declined to continue the exchange, remarking that he had meanwhile changed his own mind, and won the decade and the textbooks. Hayek withdrew from technical monetary economics toward knowledge and institutions; Sraffa contra Hayek became a literature of its own.",
+    sources:"Hayek, Prices and Production (1931) · Hayek–Keynes exchange, Economica (1931–32) · Sraffa, EJ (1932) · Keynes, The General Theory (1936)" },
+ 
+  { slug:"marginalist-controversy", years:"1946 – 1953", title:"The Marginalist Controversy",
+    quaestio:"Do firms actually equate marginal cost with marginal revenue — and does the theory fail if they do not?",
+    a:{ party:"Lester, with Hall & Hitch behind him",
+        claim:"Ask the businessmen: they neither know nor consult marginal magnitudes, and they price by full cost plus a customary markup. A theory of the firm falsified by every firm should be retired (Lester, 1946)." },
+    b:{ party:"Machlup, Friedman & Alchian",
+        claim:"The theory predicts outcomes, not deliberations. Firms behave as if maximizing — and where they do not, selection maximizes for them: the survivors are the ones whose conduct happened to fit (Machlup, 1946; Alchian, 1950; Friedman, 1953)." },
+    status:"Settled by methodology rather than measurement: Friedman's 1953 essay and Alchian's evolutionary argument became the profession's working creed. Behavioral economics reopened the file half a century later, with the survey evidence rehabilitated under a new name.",
+    sources:"Hall & Hitch (1939) · Lester, AER (1946) · Machlup, AER (1946) · Alchian, JPE (1950) · Friedman, “The Methodology of Positive Economics” (1953)" },
+ 
+  { slug:"capital-controversy", years:"1953 – 1966 & After", title:"The Cambridge Capital Controversy",
+    quaestio:"Can “capital” be measured independently of distribution — is the aggregate production function coherent?",
+    a:{ party:"Cambridge, England — Robinson, Sraffa, Pasinetti, Garegnani",
+        claim:"Reswitching and capital-reversing show the parable circular: one needs the rate of profit to value the capital stock, so the capital stock cannot explain the rate of profit. The aggregate production function is a prayer, not a tool." },
+    b:{ party:"Cambridge, Massachusetts — Samuelson & Solow",
+        claim:"Aggregates are workable parables. The surrogate production function (1962) shows the simple story survives as an approximation good enough for growth accounting and the classroom." },
+    status:"Samuelson's 1966 “A Summing Up” conceded the logical point; the profession absorbed the concession and kept the aggregate function anyway — a resolution by shrug that historians still puzzle over. Cohen and Harcourt (2003) tell the story for the JEP.",
+    sources:"Robinson (1953–54) · Sraffa, Production of Commodities (1960) · Samuelson (1962) · Samuelson, “A Summing Up,” QJE (1966) · Cohen & Harcourt, JEP (2003)" },
+ 
+  { slug:"measurement-without-theory", years:"1947 – 1949", title:"Measurement Without Theory",
+    quaestio:"Should empirical economics begin from theoretical structure, or from the data's own regularities?",
+    a:{ party:"Koopmans, for the Cowles Commission",
+        claim:"Burns and Mitchell's cycle measurements are Kepler without Newton: without structural identification, the measured regularities cannot bear causal or policy weight (review of Measuring Business Cycles, 1947)." },
+    b:{ party:"Vining, for the NBER of Mitchell",
+        claim:"Hypothesis-seeking is science too. Premature structure forecloses discovery of the cycle's actual anatomy; the units of analysis themselves are still unknown (Vining–Koopmans exchange, 1949)." },
+    status:"Cowles wrote the econometrics textbooks. The quarrel returned as VARs against structure (Sims, 1980) and again in the credibility revolution — Vining's ghost keeps better company than his defeat suggests.",
+    sources:"Burns & Mitchell (1946) · Koopmans, REStat (1947) · Vining–Koopmans exchange, REStat (1949)" }
+];
+ 
+/* ------------------------------------------------------------
+   LEAVES — glossed primary-source excerpts.
+   Paragraphs are strings; wrap any phrase as <g n="1">…</g> to
+   key it to gloss 1. Texts below are public domain (Cannan ed.
+   1904; Marshall 8th ed. 1920), verbatim, with […] for elisions.
+   ------------------------------------------------------------ */
+ 
+const LEAVES = [
+  { slug:"wn-i-iii",
+    title:"That the Division of Labour is limited by the Extent of the Market",
+    author:"Adam Smith",
+    source:"The Wealth of Nations, Book I, Chapter III (1776) · text of the Cannan edition",
+    intro:"The chapter whose title Stigler read as a theorem. Three paragraphs, with glosses.",
+    text:[
+`As it is the power of exchanging that gives occasion to the division of labour, so the extent of this division must always be limited by the extent of that power, or, in other words, by <g n="1">the extent of the market</g>. When the market is very small, no person can have any encouragement to dedicate himself entirely to one employment, for want of the power to exchange all that <g n="2">surplus part of the produce of his own labour</g>, which is over and above his own consumption, for such parts of the produce of other men's labour as he has occasion for.`,
+`There are some sorts of industry, even of the lowest kind, which can be carried on no where but in a great town. <g n="3">A porter, for example, can find employment and subsistence in no other place.</g> A village is by much too narrow a sphere for him; even an ordinary market town is scarce large enough to afford him constant occupation. In the lone houses and very small villages which are scattered about in so desert a country as the Highlands of Scotland, <g n="4">every farmer must be butcher, baker and brewer for his own family</g>. […] It is impossible there should be such a trade as even that of a nailer in the remote and inland parts of the Highlands of Scotland. Such a workman at the rate of a thousand nails a day, and three hundred working days in the year, will make three hundred thousand nails in the year. But in such a situation it would be impossible to dispose of one thousand, that is, of one day's work in the year.`,
+`As by means of <g n="5">water-carriage</g> a more extensive market is opened to every sort of industry than what land-carriage alone can afford it, so it is upon the sea-coast, and along the banks of navigable rivers, that industry of every kind naturally begins to subdivide and improve itself […] Six or eight men, therefore, by the help of water-carriage, can carry and bring back in the same time the same quantity of goods between London and Edinburgh, as fifty broad-wheeled waggons, attended by a hundred men, and drawn by four hundred horses.`
+    ],
+    glosses:{
+      1:`The title as theorem. Stigler took it exactly so in 1951, deriving the life-cycle of industries — functions splitting off as markets grow — from this sentence. Vertical disintegration begins here.`,
+      2:`Specialization presupposes disposal: the margin of the division of labour is set by the surplus one can sell. Exchange is not an afterthought to production but its precondition.`,
+      3:`A service is consumed where it is produced. The porter's market is the density of demand within walking distance — the germ of every location theory that followed.`,
+      4:`The household as residual producer: where markets are thin, production folds back into the family. The extent of the market decides what the household must remain.`,
+      5:`Transport costs govern the extent of the market, and so the division of labour itself. Every argument about trade and its restriction is downstream of this paragraph.`
+    } },
+ 
+  { slug:"principles-v-iii",
+    title:"Equilibrium of Normal Demand and Supply",
+    author:"Alfred Marshall",
+    source:"Principles of Economics, Book V, Chapter III, §7 (1890) · text of the 8th edition",
+    intro:"The most famous pair of scissors in the discipline, in its native habitat.",
+    text:[
+`In particular the notion of equilibrium, which has been treated rather slightly in this chapter, will be studied more carefully in chapters V. and XII. of this Book: and some account of <g n="1">the controversy whether “cost of production” or “utility” governs value</g> will be given in Appendix I. But it may be well to say a word or two here on this last point.`,
+`<g n="2">We might as reasonably dispute whether it is the upper or the under blade of a pair of scissors that cuts a piece of paper, as whether value is governed by utility or cost of production.</g> It is true that when one blade is held still, and the cutting is effected by moving the other, we may say with <g n="3">careless brevity</g> that the cutting is done by the second; but the statement is not strictly accurate, and is to be excused only so long as it claims to be merely <g n="4">a popular and not a strictly scientific account</g> of what happens.`
+    ],
+    glosses:{
+      1:`The controversy is the marginal revolution's aftermath: Jevons had set value on utility alone, against the classical cost theories. Appendix I is Marshall's extended settling of accounts with Jevons.`,
+      2:`The synthesis in one sentence: demand and supply are joint determinants, and the one-bladed theories — Ricardo's cost, Jevons's utility — are each half a pair of scissors.`,
+      3:`The blade “held still” is Marshall's licence for partial analysis. Which blade matters more is a question about the period under study: demand rules the market day, cost the long run.`,
+      4:`The characteristic Marshallian move: rival doctrines are demoted to loose speech rather than refuted. The classical economists were not wrong, merely careless — a generous burial.`
+    } }
+];
+</script>
+<script>
 /* ============================================================
-   RENDERING & BEHAVIOR
+   BEHAVIOR — rendering, routing, glosses, theme.
    ============================================================ */
-
+ 
 const $  = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
+const TABS = ["frontispiece","chronicle","schools","thinkers","disputationes","library","colophon"];
+ 
+const slugify = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+  .toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+const roman = n => ["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"][n] || n;
 const schoolName = k => (SCHOOLS.find(s => s.key === k) || {name:k}).name;
-
-/* ---- tabs ---- */
-function switchTab(id, scroll = true){
-  $$(".tab").forEach(t => t.setAttribute("aria-selected", t.getAttribute("aria-controls") === id ? "true" : "false"));
-  $$(".panel").forEach(p => p.classList.toggle("active", p.id === id));
-  if (scroll) window.scrollTo({ top: 0 });
-}
-$$(".tab").forEach(t => t.addEventListener("click", () => switchTab(t.getAttribute("aria-controls"))));
-
-document.querySelector(".tabs").addEventListener("keydown", e => {
-  if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-  const tabs = $$(".tab");
-  const i = tabs.indexOf(document.activeElement);
-  if (i < 0) return;
-  const next = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
-  next.focus();
-  switchTab(next.getAttribute("aria-controls"));
-});
-
-$$(".portal").forEach(p => p.addEventListener("click", () => switchTab(p.dataset.goto)));
-
-/* ---- chronicle ---- */
+ 
+THINKERS.forEach(t => t.slug = slugify(t.n));
+ 
+/* ---- static renders ---- */
+ 
 $("#timelineMount").innerHTML = TIMELINE.map(e => `
   <article class="tl-entry">
     <span class="node" aria-hidden="true"></span>
@@ -876,9 +1140,9 @@ $("#timelineMount").innerHTML = TIMELINE.map(e => `
     <div class="tl-era">${e.era}</div>
     <div class="tl-title">${e.i ? `<i>${e.t}</i>` : e.t}</div>
     <p class="tl-blurb">${e.b}</p>
+    ${e.go ? `<a class="tl-go" href="${e.go}">Open the disputation ⟶</a>` : ""}
   </article>`).join("");
-
-/* ---- schools ---- */
+ 
 $("#schoolMount").innerHTML = SCHOOLS.map(s => `
   <article class="school">
     <span class="glyph" aria-hidden="true">${s.glyph}</span>
@@ -886,49 +1150,34 @@ $("#schoolMount").innerHTML = SCHOOLS.map(s => `
     <div class="span">${s.span}</div>
     <p class="gist">${s.gist}</p>
     <p class="figures">${s.figures}</p>
-    <button class="view" data-school="${s.key}">View the thinkers ⟶</button>
+    <a class="view" href="#/thinkers?school=${s.key}">View the thinkers ⟶</a>
   </article>`).join("");
-
-$$(".school .view").forEach(b => b.addEventListener("click", () => {
-  filter.school = b.dataset.school;
-  filter.q = "";
-  $("#searchBox").value = "";
-  renderChips(); renderThinkers();
-  switchTab("thinkers");
-}));
-
-/* ---- thinkers: filter + search ---- */
-const filter = { school: "all", q: "" };
-
-function renderChips(){
-  const chips = [{ key:"all", name:"All" }, ...SCHOOLS.map(s => ({ key:s.key, name:s.name }))];
-  $("#chipBar").innerHTML = chips.map(c =>
-    `<button class="chip ${filter.school === c.key ? "on" : ""}" data-school="${c.key}">${c.name}</button>`).join("");
-  $$("#chipBar .chip").forEach(c => c.addEventListener("click", () => {
-    filter.school = c.dataset.school;
-    renderChips(); renderThinkers();
-  }));
-}
-
-function renderThinkers(){
-  const q = filter.q.trim().toLowerCase();
-  const rows = THINKERS.filter(t =>
-    (filter.school === "all" || t.s === filter.school) &&
-    (!q || (t.n + " " + t.w + " " + t.note).toLowerCase().includes(q))
-  );
-  $("#thinkerMount").innerHTML = rows.length ? rows.map(t => `
-    <article class="thinker">
-      <div class="t-head"><h4>${t.n}</h4><span class="dates">${t.d}</span></div>
-      <div class="t-school">${schoolName(t.s)}</div>
-      <p class="works">${t.w}</p>
-      <p class="note">${t.note}</p>
-    </article>`).join("")
-    : `<p class="no-results">No entry answers to that name. The codex, like the literature, is incomplete — add to it.</p>`;
-}
-
-$("#searchBox").addEventListener("input", e => { filter.q = e.target.value; renderThinkers(); });
-
-/* ---- library ---- */
+ 
+const sidesHTML = d => `
+  <div class="d-sides">
+    <div class="d-side"><span class="d-lbl">Videtur quod</span><span class="d-party">${d.a.party}</span><p>${d.a.claim}</p></div>
+    <span class="d-x" aria-hidden="true">✕</span>
+    <div class="d-side"><span class="d-lbl">Sed contra</span><span class="d-party">${d.b.party}</span><p>${d.b.claim}</p></div>
+  </div>
+  <p class="d-status"><span class="d-lbl">Status quaestionis.</span>${d.status}</p>
+  <p class="d-sources">${d.sources}</p>`;
+ 
+$("#disputatioMount").innerHTML = DISPUTATIONES.map(d => `
+  <article class="disputatio">
+    <div class="d-years">${d.years}</div>
+    <h3 class="d-title">${d.title}</h3>
+    <p class="d-quaestio"><span class="d-lbl">Quaestio.</span>${d.quaestio}</p>
+    ${sidesHTML(d)}
+    <a class="view" href="#/disputationes/${d.slug}">Open the folio ⟶</a>
+  </article>`).join("");
+ 
+$("#leafCardMount").innerHTML = LEAVES.map(l => `
+  <a class="leaf-card" href="#/library/${l.slug}">
+    <span class="lc-t">${l.title}</span>
+    <span class="lc-a">${l.author}</span>
+    <span class="lc-go">Read with glosses ⟶</span>
+  </a>`).join("");
+ 
 $("#textMount").innerHTML = TEXTS.map(t => `
   <article class="tome">
     <div class="t-year">${t.y}</div>
@@ -936,10 +1185,223 @@ $("#textMount").innerHTML = TEXTS.map(t => `
       <div class="t-title">${t.t}</div>
       <div class="t-author">${t.a}</div>
       <p class="t-note">${t.note}</p>
+      ${t.leaf ? `<a class="t-open" href="#/library/${t.leaf}">Read a glossed leaf ⟶</a>` : ""}
     </div>
   </article>`).join("");
-
+ 
+/* ---- thinkers: filter + search ---- */
+ 
+const filter = { school:"all", q:"" };
+ 
+function renderChips(){
+  const chips = [{ key:"all", name:"All" }, ...SCHOOLS.map(s => ({ key:s.key, name:s.name }))];
+  $("#chipBar").innerHTML = chips.map(c =>
+    `<button class="chip ${filter.school === c.key ? "on" : ""}" data-school="${c.key}">${c.name}</button>`).join("");
+}
+ 
+function renderThinkers(){
+  const q = filter.q.trim().toLowerCase();
+  const rows = THINKERS.filter(t =>
+    (filter.school === "all" || t.s === filter.school) &&
+    (!q || (t.n + " " + t.w + " " + t.note).toLowerCase().includes(q))
+  );
+  $("#thinkerMount").innerHTML = rows.length ? rows.map(t => `
+    <article class="thinker" data-slug="${t.slug}" tabindex="0" role="link" aria-label="Open the folio of ${t.n}">
+      <div class="t-head"><h4>${t.n}</h4><span class="dates">${t.d}</span></div>
+      <div class="t-school">${schoolName(t.s)}</div>
+      <p class="works">${t.w}</p>
+      <p class="note">${t.note}</p>
+      <span class="open">Open the folio ⟶</span>
+    </article>`).join("")
+    : `<p class="no-results">No entry answers to that name. The codex, like the literature, is incomplete — add to it.</p>`;
+}
+ 
+$("#chipBar").addEventListener("click", e => {
+  const c = e.target.closest(".chip"); if (!c) return;
+  setHash("#/thinkers" + (c.dataset.school === "all" ? "" : "?school=" + c.dataset.school));
+});
+$("#searchBox").addEventListener("input", e => { filter.q = e.target.value; renderThinkers(); });
+ 
+$("#thinkerMount").addEventListener("click", e => {
+  const card = e.target.closest(".thinker"); if (!card) return;
+  setHash("#/thinkers/" + card.dataset.slug);
+});
+$("#thinkerMount").addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const card = e.target.closest(".thinker"); if (!card) return;
+  e.preventDefault();
+  setHash("#/thinkers/" + card.dataset.slug);
+});
+ 
+/* ---- folio (thinker & disputation essays) ---- */
+ 
+const emptyState = tplId => `
+  <p class="empty-folio">No folio has been bound for this entry yet. To write one, add a template
+  to the authoring area at the foot of the file: <code>&lt;template id="${tplId}"&gt;…&lt;/template&gt;</code>.
+  Plain HTML inside — the first paragraph takes the versal. The full pattern is recorded in the Colophon.</p>`;
+ 
+function templateBody(tplId){
+  const tpl = document.getElementById(tplId);
+  return tpl ? tpl.innerHTML : emptyState(tplId);
+}
+ 
+function showFolio(kind, slugStr){
+  const back = $("#folioBack");
+  let rubric = "", title = "", meta = "", body = "";
+  if (kind === "thinker"){
+    back.href = "#/thinkers"; back.textContent = "⟵ The Thinkers";
+    const t = THINKERS.find(x => x.slug === slugStr);
+    if (!t){ title = "Leaf not found"; body = `<p class="empty-folio">No such entry in the codex.</p>`; }
+    else {
+      rubric = schoolName(t.s);
+      title = t.n;
+      meta = `${t.d} · <span class="folio-works">${t.w}</span>`;
+      body = templateBody("folio-thinker-" + t.slug);
+    }
+  } else {
+    back.href = "#/disputationes"; back.textContent = "⟵ Disputationes";
+    const d = DISPUTATIONES.find(x => x.slug === slugStr);
+    if (!d){ title = "Leaf not found"; body = `<p class="empty-folio">No such disputation in the codex.</p>`; }
+    else {
+      rubric = "Disputatio · " + d.years;
+      title = d.title;
+      meta = d.quaestio;
+      body = sidesHTML(d) + templateBody("folio-disputatio-" + d.slug);
+    }
+  }
+  $("#folioRubric").textContent = rubric;
+  $("#folioTitle").textContent = title;
+  $("#folioMeta").innerHTML = meta;
+  $("#folioBody").innerHTML = body;
+}
+ 
+/* ---- glossed leaves ---- */
+ 
+let currentLeaf = null;
+ 
+function showLeaf(slugStr){
+  const l = LEAVES.find(x => x.slug === slugStr);
+  currentLeaf = l || null;
+  if (!l){
+    $("#leafTitle").textContent = "Leaf not found";
+    $("#leafMeta").textContent = ""; $("#leafIntro").textContent = "";
+    $("#leafText").innerHTML = `<p class="empty-folio">No such leaf in the scriptorium.</p>`;
+    $("#leafMargin").innerHTML = "";
+    return;
+  }
+  $("#leafTitle").textContent = l.title;
+  $("#leafMeta").textContent = l.author + " · " + l.source;
+  $("#leafIntro").textContent = l.intro || "";
+  $("#leafText").innerHTML = l.text.map(p =>
+    "<p>" + p.replace(/<g n="(\d+)">([\s\S]*?)<\/g>/g,
+      (m, n, inner) => `<span class="gl" data-g="${n}">${inner}<sup class="gn">${roman(+n)}</sup></span>`) + "</p>"
+  ).join("");
+  $("#leafMargin").innerHTML = Object.keys(l.glosses).sort((a,b)=>a-b).map(n =>
+    `<div class="leaf-note" data-g="${n}"><span class="n">Glossa ${roman(+n)}</span>${l.glosses[n]}</div>`
+  ).join("");
+  requestAnimationFrame(() => requestAnimationFrame(placeGlosses));
+}
+ 
+const wide = () => window.matchMedia("(min-width: 980px)").matches;
+ 
+function placeGlosses(){
+  const margin = $("#leafMargin");
+  const notes = $$("#leafMargin .leaf-note");
+  if (!currentLeaf || !notes.length) return;
+  if (!wide()){
+    notes.forEach(n => n.style.top = "");
+    margin.style.minHeight = "";
+    return;
+  }
+  const gridTop = $("#leafGrid").getBoundingClientRect().top;
+  let prevBottom = 0;
+  notes.forEach(note => {
+    const anchor = $(`#leafText .gl[data-g="${note.dataset.g}"]`);
+    if (!anchor) return;
+    const y = Math.max(anchor.getBoundingClientRect().top - gridTop, prevBottom + 14);
+    note.style.top = y + "px";
+    prevBottom = y + note.offsetHeight;
+  });
+  margin.style.minHeight = prevBottom + "px";
+}
+ 
+let resizeT;
+window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(placeGlosses, 150); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeGlosses);
+ 
+function setLit(g, on){
+  $$(`#leaf [data-g="${g}"]`).forEach(el => el.classList.toggle("lit", on));
+}
+$("#leaf").addEventListener("mouseover", e => {
+  const el = e.target.closest("[data-g]"); if (el) setLit(el.dataset.g, true);
+});
+$("#leaf").addEventListener("mouseout", e => {
+  const el = e.target.closest("[data-g]"); if (el) setLit(el.dataset.g, false);
+});
+$("#leaf").addEventListener("click", e => {
+  const el = e.target.closest(".gl"); if (!el || wide()) return;
+  const note = $(`#leafMargin .leaf-note[data-g="${el.dataset.g}"]`);
+  if (!note) return;
+  note.scrollIntoView({ behavior:"smooth", block:"center" });
+  setLit(el.dataset.g, true);
+  setTimeout(() => setLit(el.dataset.g, false), 1600);
+});
+ 
+/* ---- router ---- */
+ 
+function parseHash(){
+  const raw = location.hash.replace(/^#\/?/, "");
+  const [path, qs] = raw.split("?");
+  const parts = path.split("/").filter(Boolean);
+  return { tab: parts[0] || "frontispiece", slug: parts[1] || null, params: new URLSearchParams(qs || "") };
+}
+ 
+function activatePanel(panelId, tabId){
+  $$(".panel").forEach(p => p.classList.toggle("active", p.id === panelId));
+  $$(".tab").forEach(t => t.setAttribute("aria-selected", t.dataset.route === tabId ? "true" : "false"));
+  window.scrollTo({ top: 0 });
+}
+ 
+function applyRoute(){
+  const r = parseHash();
+  const tab = TABS.includes(r.tab) ? r.tab : "frontispiece";
+  let panelId = tab;
+ 
+  if (tab === "thinkers"){
+    const school = r.params.get("school") || "all";
+    filter.school = SCHOOLS.some(s => s.key === school) ? school : "all";
+    renderChips(); renderThinkers();
+    if (r.slug){ showFolio("thinker", r.slug); panelId = "folio"; }
+  } else if (tab === "disputationes" && r.slug){
+    showFolio("disputatio", r.slug); panelId = "folio";
+  } else if (tab === "library" && r.slug){
+    showLeaf(r.slug); panelId = "leaf";
+  }
+ 
+  activatePanel(panelId, tab);
+  if (panelId === "leaf") requestAnimationFrame(() => requestAnimationFrame(placeGlosses));
+}
+ 
+function setHash(h){
+  if (location.hash === h) applyRoute();
+  else location.hash = h;
+}
+ 
+window.addEventListener("hashchange", applyRoute);
+ 
+$$(".tab").forEach(t => t.addEventListener("click", () => setHash("#/" + t.dataset.route)));
+document.querySelector(".tabs").addEventListener("keydown", e => {
+  if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+  const tabs = $$(".tab");
+  const i = tabs.indexOf(document.activeElement);
+  if (i < 0) return;
+  const next = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+  next.focus();
+  setHash("#/" + next.dataset.route);
+});
+ 
 /* ---- epigraph rotator ---- */
+ 
 let epI = 0;
 function setEpigraph(i){
   $("#epQuote").textContent = "\u201C" + EPIGRAPHS[i].q + "\u201D";
@@ -957,8 +1419,9 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
     }, 620);
   }, 9000);
 }
-
+ 
 /* ---- theme ---- */
+ 
 const toggle = $("#themeToggle");
 function paintToggle(){
   const dark = document.documentElement.dataset.theme === "candlelight";
@@ -969,10 +1432,11 @@ toggle.addEventListener("click", () => {
   el.dataset.theme = el.dataset.theme === "candlelight" ? "parchment" : "candlelight";
   paintToggle();
 });
-
-renderChips();
-renderThinkers();
+ 
+/* ---- ignition ---- */
+ 
 paintToggle();
+applyRoute();
 </script>
 </body>
 </html>
